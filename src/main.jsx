@@ -20,7 +20,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/:category",
-        element: <Gallery/>
+        element: <Gallery/>,
+        loader: galleryLoader,
       }
     ]
   },
