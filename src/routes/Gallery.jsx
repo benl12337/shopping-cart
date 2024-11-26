@@ -1,7 +1,9 @@
 import { useLoaderData } from "react-router-dom";
+import ItemCard from "../components/ItemCard";
+import './Gallery.css'
 
 
-export async function loader({params}) {
+export async function loader({ params }) {
 
     const dict = {
         'mens': "men's clothing",
@@ -10,7 +12,7 @@ export async function loader({params}) {
     }
 
     const searchTerm = dict[params.categoryId];
-    console.log('search term is: ',searchTerm);
+    console.log('search term is: ', params.categoryId);
 
     const items = await fetch(`https://fakestoreapi.com/products/category/${searchTerm}`)
     const parsed = items.json();
@@ -20,16 +22,16 @@ export async function loader({params}) {
 
 
 export default function Gallery() {
-     const items = useLoaderData();
+    const items = useLoaderData();
     return (
         <div className="product-grid">
-            <ul>
-               {
-                items.map((item)=>{
-                    return <li key={item.title}>{item.title}</li>
+
+            {
+                items.map((item) => {
+                    return <ItemCard item={item} key={item.title}/>
                 })
-               }
-            </ul>
+            }
+
         </div>
     )
 }

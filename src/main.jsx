@@ -2,10 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
-import Shop from './Shop.jsx'
+import Shop from './routes/Shop.jsx'
 import Gallery, { loader as galleryLoader } from './routes/Gallery.jsx'
 import Homepage from './routes/Homepage.jsx'
-
 
 
 // Set up the Browser routes here
@@ -16,18 +15,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/shop",
-    element: <Shop/>,
+    element: <Shop />,
     children: [
       {
-        path: "/:category",
-        element: <Gallery/>,
+        path: ":categoryId",
+        element: <Gallery />,
         loader: galleryLoader,
       }
     ]
   },
-
-
-  ])
+])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
