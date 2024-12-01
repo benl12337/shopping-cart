@@ -36,3 +36,7 @@
 .product-description {
     text-overflow: ellipsis;
 }
+
+.cart-icon {
+    color: black;
+}

@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import localforage from "localforage";
 import './Product.css'
 
 export async function loader({ params }) {
@@ -10,26 +11,59 @@ export async function loader({ params }) {
 }
 
 
-
 const Product = () => {
 
     const item = useLoaderData();
-    const [qty, setQty] = useState(1);
+    const [qty, setQty] = useState(0);
+
+    useEffect(()=>{
+        const getQty = async () =>{
+            const savedQty = await localforage.getItem('qty') || {};
+
+            // check if there is an existing quantity
+            if (savedQty[item.id]) {
+                setQty(savedQty[item.id]);
+            } 
+        }
+
+        getQty();
+
+    }, [item.id])
 
     const handleClick = (action) => {
-        
+
         if (action === 'increase') {
             setQty(qty + 1);
         } else {
-            if (qty == 1) {
+            if (qty == 0) {
                 return;
             }
             setQty(qty - 1);
         }
     }
 
+    const handleChange = (e) => {
+        // the data structure should be {id: quantity}
+        setQty(e.target.value);
+    }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        // update the quantity
+        const updated = await localforage.getItem('qty') || {};
+   
+        updated[item.id] = qty;
 
+        if (qty == 0) {
+            delete updated[item.id]
+        }
+    
+       localforage.setItem('qty', updated).then((value)=>{
+        console.log(value);
+       })
+
+    }
 
     // get the quantity of the item
 
@@ -42,9 +76,11 @@ const Product = () => {
                 <div className="product-right">
                     <h3>{item.title}</h3>
                     <h5>{item.description}</h5>
-                    <form action="post">
-                    <button type="button" onClick={()=>handleClick('decrease')}>−</button><input className="" type="number" value={qty} placeholder="1" min="1"/><button type="button" onClick={()=>handleClick('increase')}>+</button>
-                    <button type="submit">Add To Cart</button>   </form> 
+                    <form onSubmit={handleSubmit} action="post">
+                        <div className="button-group">
+                            <button type="button" className="quantity-btn" onClick={() => handleClick('decrease')}>−</button><input  onChange={handleChange} className="" type="number" value={qty} min="0" /><button type="button" className="quantity-btn" onClick={() => handleClick('increase')}>+</button>
+                        </div>
+                        <button type="submit">{qty ? "Add to Cart" : "Update"}</button></form>
                 </div>
             </div>
         </div>

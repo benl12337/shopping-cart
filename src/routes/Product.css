@@ -14,6 +14,31 @@
     width: 350px;
 }
 
-input {
+.button-group button, input {
     width: 50px;
+    border: none;
+    outline: none;
+    background: none;
+    border-radius: 0;
+    border-right: 1px solid black;
 }
+
+.button-group button:last-child {
+    border: 0;
+}
+
+.button-group button:hover {
+    background: rgb(248, 213, 196);
+    transition: 300ms ease;
+}
+
+
+
+.button-group {
+    width: 150px;
+    border-radius: 10px;
+    border: 1px solid rgb(212, 211, 211);
+    display: flex;
+    overflow: hidden;
+}
+

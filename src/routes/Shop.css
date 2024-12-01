@@ -12,11 +12,15 @@
     font-weight: bolder;
 }
 
-.quantity {
+.cart-qty{
     background: rgb(240, 147, 107);
+    width: 20px;
+    height: 20px;
     padding: 5px;
     margin: 5px;
     border-radius: 20%;
+    text-align: center;
+    justify-items: center;
 }
 
 .category-button {

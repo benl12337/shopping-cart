@@ -1,6 +1,5 @@
 import { useLoaderData } from "react-router-dom";
 import ItemCard from "../components/ItemCard";
-import localforage from "localforage";
 import './Gallery.css'
 
 
