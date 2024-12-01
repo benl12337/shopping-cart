@@ -1,0 +1,19 @@
+.product-page {
+    width: 100%;
+}
+
+.product-img {
+    width: 350px;
+}
+
+.product-information {
+    display: flex;
+}
+
+.product-right  {
+    width: 350px;
+}
+
+input {
+    width: 50px;
+}

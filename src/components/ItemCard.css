@@ -6,3 +6,8 @@
 .product-title {
     text-align: center;
 }
+
+.add-to-cart {
+    background: orange;
+    color: white;
+}

@@ -1,0 +1,25 @@
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+.cart-icon {
+    display: flex;
+    align-items: center;
+}
+
+.cart-icon p {
+    font-weight: bolder;
+}
+
+.quantity {
+    background: rgb(240, 147, 107);
+    padding: 5px;
+    margin: 5px;
+    border-radius: 20%;
+}
+
+.category-button {
+    padding: 5px;
+}
+
