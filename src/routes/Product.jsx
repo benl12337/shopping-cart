@@ -1,6 +1,7 @@
 import { useLoaderData } from "react-router-dom";
-import { useState, useEffect } from "react";
-import localforage from "localforage";
+import { useState, useEffect, useContext } from "react";
+import QtyContext from "../components/QtyContext";
+
 import './Product.css'
 
 export async function loader({ params }) {
@@ -14,58 +15,52 @@ export async function loader({ params }) {
 const Product = () => {
 
     const item = useLoaderData();
-    const [qty, setQty] = useState(0);
+    const [itemQty, setItemQty] = useState(0);
+    const {qty, setQty} = useContext(QtyContext);
 
+
+    // set quantity of item upon component mount
     useEffect(()=>{
-        const getQty = async () =>{
-            const savedQty = await localforage.getItem('qty') || {};
-
-            // check if there is an existing quantity
-            if (savedQty[item.id]) {
-                setQty(savedQty[item.id]);
-            } 
+        // get the current quantity of item
+        if (qty[item.id]) {
+            setItemQty(qty[item.id])
         }
+    }, [item.id, qty])
 
-        getQty();
-
-    }, [item.id])
 
     const handleClick = (action) => {
 
         if (action === 'increase') {
-            setQty(qty + 1);
+            setItemQty(itemQty + 1);
         } else {
-            if (qty == 0) {
+            if (itemQty == 0) {
                 return;
             }
-            setQty(qty - 1);
+            setItemQty(itemQty - 1);
         }
     }
 
     const handleChange = (e) => {
         // the data structure should be {id: quantity}
-        setQty(e.target.value);
+        setItemQty(e.target.value);
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         // update the quantity
-        const updated = await localforage.getItem('qty') || {};
+        const updated = {...qty};
    
-        updated[item.id] = qty;
+        updated[item.id] = itemQty;
 
-        if (qty == 0) {
+        if (itemQty == 0) {
             delete updated[item.id]
         }
     
-       localforage.setItem('qty', updated).then((value)=>{
-        console.log(value);
-       })
+       setQty(updated);
 
     }
 
-    // get the quantity of the item
 
     return (
         <div className="product-page">
@@ -78,9 +73,9 @@ const Product = () => {
                     <h5>{item.description}</h5>
                     <form onSubmit={handleSubmit} action="post">
                         <div className="button-group">
-                            <button type="button" className="quantity-btn" onClick={() => handleClick('decrease')}>−</button><input  onChange={handleChange} className="" type="number" value={qty} min="0" /><button type="button" className="quantity-btn" onClick={() => handleClick('increase')}>+</button>
+                            <button type="button" className="quantity-btn" onClick={() => handleClick('decrease')}>−</button><input  onChange={handleChange} className="" type="number" value={itemQty} min="0" /><button type="button" className="quantity-btn" onClick={() => handleClick('increase')}>+</button>
                         </div>
-                        <button type="submit">{qty ? "Add to Cart" : "Update"}</button></form>
+                        <button type="submit">{itemQty ? "Add to Cart" : "Update"}</button></form>
                 </div>
             </div>
         </div>
