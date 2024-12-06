@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 
 
 const CartIcon = ({qty}) => {
-
-
     return (
         <div className="cart-icon">
             <p>Cart</p>
