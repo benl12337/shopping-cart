@@ -10,27 +10,25 @@ import './Shop.css'
 const Shop = () => {
 
     // set the qty item
-    const [qty, setQty] = useState({})
+    const [qty, setQty] = useState([])
 
 
     // update the value of qty if it exists
     useEffect(() => {
         const getQty = async () => {
-            const savedQty = await localforage.getItem('qty') || {};
+            const savedQty = await localforage.getItem('qty') || [];
 
             // check if there is an existing record of quantities
             if (savedQty) {
                 setQty(savedQty);
-            } 
+            }
         }
         getQty();
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         // if qty is updated, save to localforage
-
-        console.log('quantity being updated!!');
-
+        console.log('quantity is being updated,', qty)
         const save = async () => {
             await localforage.setItem('qty', qty);
         }
@@ -41,16 +39,16 @@ const Shop = () => {
 
 
     return (
-        <QtyContext.Provider  value={{qty, setQty}} >
+        <QtyContext.Provider value={{ qty, setQty }} >
             <h1>START SHOPPING</h1>
             <div className="navbar">
                 <Link to="/shop/category/men's clothing" className="category-button">Men's Clothing</Link>
                 <Link to="/shop/category/women's clothing" className="category-button">Women's Clothing</Link>
                 <Link to="/shop/category/jewelery" className="category-button">Jewelry</Link>
-                <Link to="/cart"><CartIcon qty={Object.keys(qty).length} /></Link>
+                <Link to="/shop/cart"><CartIcon qty={qty.length} /></Link>
             </div>
             <Outlet />
-            </QtyContext.Provider>
+        </QtyContext.Provider>
 
     );
 };

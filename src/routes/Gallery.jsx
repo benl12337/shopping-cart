@@ -5,12 +5,12 @@ import './Gallery.css'
 
 
 export async function loader({ params }) {
-
     
     const searchTerm = params.categoryId
 
     const items = await fetch(`https://fakestoreapi.com/products/category/${searchTerm}`)
-    const parsed = items.json();
+    const parsed = await items.json();
+    console.log(parsed);
 
     return parsed;
 }

@@ -29,12 +29,12 @@ const router = createBrowserRouter([
         element: < Product/>,
         loader: productLoader,
       },
+      {
+        path: "cart",
+        element: <Cart/>
+      }
     ]
   },
-  {
-    path: "/cart",
-    element: <Cart/>
-  }
 ])
 
 createRoot(document.getElementById('root')).render(

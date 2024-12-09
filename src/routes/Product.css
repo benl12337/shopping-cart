@@ -32,7 +32,19 @@
     transition: 300ms ease;
 }
 
+.checkout-item {
+    display: flex;
+    height: 150px;
+    width: 600px;
+}
 
+.checout-item img {
+    width: 100px;
+}
+
+.checkout-list {
+    list-style: none;
+}
 
 .button-group {
     width: 150px;
